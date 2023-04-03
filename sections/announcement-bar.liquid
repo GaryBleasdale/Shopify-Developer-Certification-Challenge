@@ -20,7 +20,52 @@
         {%- endif -%}
       </div>
   {%- endcase -%}
-{%- endfor -%}
+  {% case block.type%}
+    {% when 'countdown'%}
+      <div class="announcement-bar color-{{ block.settings.color_scheme }} gradient" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+              <div class="page-width">
+                <p class="announcement-bar__message-countdown center h5 hidden">
+                  <span id='countdown-message'> </span>
+                  
+                </p>
+              </div>
+      </div>
+
+
+      <script>
+        const pendingTimeCalculator = () =>{
+          let countdownTextSpan = document.body.querySelector('#countdown-message')
+          const deadlineDate = new Date('{{block.settings.countdown_final_date}}')
+          let now = Date.now()
+          let difference = deadlineDate-now
+      if (difference>0){
+        let seconds = difference/1000
+        let minutes = seconds/60
+        let hours = minutes/60
+        let days=Math.floor(hours/24)
+        let remainingHours = Math.floor(hours % 24 )
+        let remainingMinutes = Math.floor(minutes % 60)
+        let remainingSeconds = Math.floor(seconds%60) 
+        countdownTextSpan.innerText = `Only ${
+          days >= 1 ? days + (days === 1 ? ' day, ' : ' days, ') : ''
+      }${
+          remainingHours >= 1 ? remainingHours + (remainingHours === 1 ? ' hour, ' : ' hours, ') : ''
+      }${
+          remainingMinutes >= 1 ? remainingMinutes + (remainingMinutes === 1 ? ' minute, ' : ' minutes, ') : ''
+      }${
+          remainingSeconds >= 0 ? remainingSeconds + (remainingSeconds === 1 ? ' second' : ' seconds') : ''
+      } left`
+      } else {
+        countdownTextSpan.innerText = "The moment has arrived!"
+      }
+      let countdownMessageContainer = document.body.querySelector('.announcement-bar__message-countdown')
+      countdownMessageContainer.classList.remove('hidden')    
+    }
+
+        setInterval(pendingTimeCalculator, 1000)
+      </script>
+  {% endcase %}
+{% endfor %}
 
 {% schema %}
 {
@@ -92,6 +137,17 @@
           "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
         }
       ]
+    },
+    {
+      "name": "Countdown",
+      "type": "countdown",
+      "settings": [
+         {
+           "type": "text",
+           "id": "countdown_final_date",
+           "label": "Date to countdown to (format: Dec 25, 2023 23:59:00 GMT-0700)"
+         }
+       ]
     }
   ],
   "default": {
