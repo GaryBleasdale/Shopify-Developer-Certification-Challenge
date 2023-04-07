@@ -1555,6 +1555,14 @@
         "id": "cart_drawer_collection",
         "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
+      },{
+        "type":"product",
+        "id":"drawer_upsell_product",
+        "label":"Select a product to upsell within cart drawer"
+      },{
+        "type":"text",
+        "id":"cart_upsell_headline",
+        "label": "Select a headline for your cart upsell in drawer feature"
       }
     ]
   }
