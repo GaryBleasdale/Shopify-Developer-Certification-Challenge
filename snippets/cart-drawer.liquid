@@ -383,22 +383,25 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
 
-      <div class='drawer-upsell-container' {% for item in cart.items %}{% if item.id == settings.drawer_upsell_product.variants.first.id %}style='display:none'{% endif %}{% endfor %}>
-        <h2>{{settings.cart_upsell_headline}}</h2>
-        <div class="upsell-product-details">
-          <img src="{{ settings.drawer_upsell_product.featured_media | img_url }}" class="upsell-product-image">
-          <form class="upsell-form">
-            <div class="upsell-form-left-hand-side">
-              <p>{{settings.drawer_upsell_product.title}}</p>
-              <p>{{settings.drawer_upsell_product.price | money_with_currency}}</p> 
-              <input type="hidden" name="id" value="{{settings.drawer_upsell_product.variants.first.id}}"/>
-            </div>
-            <div class="upsell-form-right-hand-side">
-              <button type="submit" id="upsell-add-to-cart" class="button">Add to Cart</button>
-            </div>  
-          </form>
+
+      {% if settings.drawer_upsell_product != blank and cart != empty %}
+        <div class='drawer-upsell-container'{% for item in cart.items %}{% if item.id == settings.drawer_upsell_product.variants.first.id %}style='display:none'{% endif %}{% endfor %}>
+          <h2>{{settings.cart_upsell_headline}}</h2>
+          <div class="upsell-product-details">
+            <img src="{{ settings.drawer_upsell_product.featured_media | img_url }}" class="upsell-product-image">
+            <form class="upsell-form">
+              <div class="upsell-form-left-hand-side">
+                <p>{{settings.drawer_upsell_product.title}}</p>
+                <p>{{settings.drawer_upsell_product.price | money_with_currency}}</p> 
+                <input type="hidden" name="id" value="{{settings.drawer_upsell_product.variants.first.id}}"/>
+              </div>
+              <div class="upsell-form-right-hand-side">
+                <button type="submit" id="upsell-add-to-cart" class="button">Add to Cart</button>
+              </div>  
+            </form>
+          </div>
         </div>
-      </div>
+      {% endif %}
       
 
 
